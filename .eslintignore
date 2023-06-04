@@ -1,0 +1,10 @@
+jest.config.*
+
+coverage
+node_modules
+build
+test
+scripts
+docs
+dist
+.*
