@@ -13,23 +13,27 @@ services:
     ports:
       - 4000:4000
     depends_on:
-      - postgres
+      - postgres_web_db
     networks:
       - bebs-backend
     command: npm run start:dev
 
-  postgres:
-    container_name: postgres
+  postgres_web_db:
+    container_name: postgres_web_db
     image: postgres:12-alpine
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5433:5433"
+    expose:
+      - "5433"
     environment:
       POSTGRES_USER: puser
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: bebs
+      POSTGRES_PORT: 5433
     networks:
       - bebs-backend
+    command: -p 5433
 
 networks:
   bebs-backend:
