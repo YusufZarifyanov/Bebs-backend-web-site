@@ -1,0 +1,36 @@
+version: '3.3'
+
+services:
+  backend:
+    container_name: backend
+    restart: always
+    build:
+      context: .
+    volumes:
+      - ./src:/app/src
+    env_file:
+      - .env
+    ports:
+      - 4000:4000
+    depends_on:
+      - postgres
+    networks:
+      - bebs-backend
+    command: npm run start:dev
+
+  postgres:
+    container_name: postgres
+    image: postgres:12-alpine
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: puser
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: bebs
+    networks:
+      - bebs-backend
+
+networks:
+  bebs-backend:
+    driver: bridge
