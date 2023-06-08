@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/entities';
 import { ProductNotFoundByIdError } from 'src/shared/errors';
-import { IProductCreateParams } from 'src/types';
+import { IProductCreateParams, IProductUpdateParams } from 'src/types';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -35,6 +35,18 @@ export class ProductService {
     }
 
     return product;
+  }
+
+  async updateProduct(
+    id: number,
+    params: Omit<IProductUpdateParams, 'id'>,
+  ): Promise<Product> {
+    const product = await this.findProductById(id);
+
+    return this.productRepository.save({
+      ...product,
+      ...params,
+    });
   }
 
   async deleteProduct(id: number): Promise<Product> {

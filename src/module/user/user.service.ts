@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
-import { UserNotFoundByLoginError } from 'src/shared/errors';
+import {
+  UserNotFoundByIdError,
+  UserNotFoundByLoginError,
+} from 'src/shared/errors';
 import { Repository } from 'typeorm';
 import { CreateUserParamsInterface } from './interfaces';
 
@@ -20,6 +23,19 @@ export class UserService {
     });
     if (!user) {
       throw new UserNotFoundByLoginError(login);
+    }
+
+    return user;
+  }
+
+  async findUserById(id: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!user) {
+      throw new UserNotFoundByIdError(id);
     }
 
     return user;

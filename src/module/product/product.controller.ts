@@ -5,6 +5,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -14,6 +15,8 @@ import {
   ProductDeleteResponseDto,
   ProductGetAllResponseDto,
   ProductGetResponseDto,
+  ProductUpdateRequestDto,
+  ProductUpdateResponseDto,
 } from './dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -44,6 +47,16 @@ export class ProductController {
     const product = await this.productService.findProductById(id);
 
     return new ProductGetResponseDto(product);
+  }
+
+  @Patch()
+  @ApiResponse({ status: HttpStatus.OK, type: ProductUpdateResponseDto })
+  async update(@Body() productUpdateDto: ProductUpdateRequestDto) {
+    const { id, ...params } = productUpdateDto;
+
+    const updatedOrder = await this.productService.updateProduct(id, params);
+
+    return new ProductUpdateResponseDto(updatedOrder);
   }
 
   @Delete(':id')
