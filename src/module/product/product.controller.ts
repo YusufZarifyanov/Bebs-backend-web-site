@@ -7,12 +7,15 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import {
   ProductCreateRequestDto,
   ProductCreateResponseDto,
   ProductDeleteResponseDto,
+  ProductGetAllByZipCodeRequestDto,
+  ProductGetAllByZipCodeResponseDto,
   ProductGetAllResponseDto,
   ProductGetResponseDto,
   ProductUpdateRequestDto,
@@ -39,6 +42,19 @@ export class ProductController {
     const products = await this.productService.findAllProducts();
 
     return new ProductGetAllResponseDto(products);
+  }
+
+  @Get('zip')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: ProductGetAllByZipCodeResponseDto,
+  })
+  async getAllByZipCode(@Query() params: ProductGetAllByZipCodeRequestDto) {
+    // TODO
+    console.log(params);
+    const products = await this.productService.findAllProducts();
+
+    return new ProductGetAllByZipCodeResponseDto(products);
   }
 
   @Get(':id')

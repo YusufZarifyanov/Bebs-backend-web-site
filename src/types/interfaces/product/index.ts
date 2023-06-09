@@ -5,3 +5,5 @@ export * from './IProductGetResponse';
 export * from './IProductDeleteResponse';
 export * from './IProductUpdateParams';
 export * from './IProductUpdateResponse';
+export * from './IProductGetAllByZipCodeParams';
+export * from './IProductGetAllByZipCodeResponse';
