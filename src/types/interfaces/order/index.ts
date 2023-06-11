@@ -5,3 +5,5 @@ export * from './IOrderGetAllResponse';
 export * from './IOrderGetResponse';
 export * from './IOrderUpdateParams';
 export * from './IOrderUpdateResponse';
+export * from './IOrderSendParams';
+export * from './IOrderSendResponse';

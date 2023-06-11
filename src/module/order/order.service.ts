@@ -2,9 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from 'src/entities';
 import { OrderNotFoundByIdError } from 'src/shared/errors';
-import { IOrderCreateParams, IOrderUpdateParams } from 'src/types';
+import {
+  IOrderCreateParams,
+  IOrderSendParams,
+  IOrderUpdateParams,
+} from 'src/types';
 import { Repository } from 'typeorm';
 import { ProductService } from '../product/product.service';
+import { OrderSendInterface } from '../product/interface';
 
 @Injectable()
 export class OrderService {
@@ -18,12 +23,33 @@ export class OrderService {
     const product = await this.productService.findProductById(params.productId);
 
     const newOrder = this.orderRepository.create({
-      ...params,
+      ...{
+        ...params,
+        isActive: false,
+      },
       product,
     });
     await this.orderRepository.save(newOrder);
 
     return newOrder;
+  }
+
+  async sendOrder(params: IOrderSendParams): Promise<OrderSendInterface> {
+    const order = await this.findOrderById(params.id);
+
+    await this.orderRepository.save({
+      ...order,
+      ...params,
+      isActive: true,
+    });
+
+    // TODO
+    const trackNumber = '11111111111';
+
+    return {
+      ...order,
+      trackNumber,
+    };
   }
 
   async findAllOrders(): Promise<Order[]> {

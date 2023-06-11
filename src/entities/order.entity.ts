@@ -10,15 +10,17 @@ export class Order extends BaseEntity {
   })
   check: string;
 
-  @Column()
-  deliveryAddress: string;
+  @Column({
+    nullable: true,
+  })
+  deliveryAddress?: string | null;
 
   @Column({
     type: 'enum',
     enum: DeliveryMethod,
-    default: DeliveryMethod.CREATED,
+    nullable: true,
   })
-  deliveryMethod: DeliveryMethod;
+  deliveryMethod?: DeliveryMethod | null;
 
   @Column({
     type: 'float',

@@ -17,6 +17,8 @@ import {
   OrderDeleteResponseDto,
   OrderGetAllResponseDto,
   OrderGetResponseDto,
+  OrderSendRequestDto,
+  OrderSendResponseDto,
   OrderUpdateRequestDto,
   OrderUpdateResponseDto,
 } from './dto';
@@ -32,6 +34,14 @@ export class OrderController {
     const order = await this.orderService.createOrder(orderCreateDto);
 
     return new OrderCreateResponseDto(order);
+  }
+
+  @Post('send')
+  @ApiResponse({ status: HttpStatus.OK, type: OrderSendResponseDto })
+  async send(@Body() orderSendDto: OrderSendRequestDto) {
+    const orderSendInfo = await this.orderService.sendOrder(orderSendDto);
+
+    return new OrderSendResponseDto(orderSendInfo);
   }
 
   @Get()
