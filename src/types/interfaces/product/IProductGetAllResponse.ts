@@ -15,6 +15,7 @@ export interface IProductGetAllResponse {
     colors: string[];
     materials: string[];
     styles: string[];
+    userId: number;
     isActive: boolean;
   }[];
 }

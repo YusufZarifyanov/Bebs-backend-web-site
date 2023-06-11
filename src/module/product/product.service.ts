@@ -4,23 +4,30 @@ import { Product } from 'src/entities';
 import { ProductNotFoundByIdError } from 'src/shared/errors';
 import { IProductCreateParams, IProductUpdateParams } from 'src/types';
 import { Repository } from 'typeorm';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    private readonly userService: UserService,
   ) {}
 
   async createProduct(params: IProductCreateParams): Promise<Product> {
-    const newProduct = this.productRepository.create(params);
+    const user = await this.userService.findUserById(params.userId);
+
+    const newProduct = this.productRepository.create({
+      ...params,
+      user,
+    });
     await this.productRepository.save(newProduct);
 
     return newProduct;
   }
 
   async findAllProducts(): Promise<Product[]> {
-    return this.productRepository.find();
+    return this.productRepository.find({ relations: ['user'] });
   }
 
   async findProductById(id: number): Promise<Product> {
@@ -28,6 +35,7 @@ export class ProductService {
       where: {
         id,
       },
+      relations: ['user'],
     });
 
     if (!product) {

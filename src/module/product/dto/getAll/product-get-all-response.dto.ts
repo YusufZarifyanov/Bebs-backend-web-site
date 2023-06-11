@@ -19,6 +19,7 @@ export class ProductGetAllResponseDto implements IProductGetAllResponse {
     colors: string[];
     materials: string[];
     styles: string[];
+    userId: number;
     isActive: boolean;
   }[];
 
@@ -37,6 +38,7 @@ export class ProductGetAllResponseDto implements IProductGetAllResponse {
       colors: product.colors,
       materials: product.materials,
       styles: product.styles,
+      userId: product.user.id,
       isActive: product.isActive,
     }));
   }

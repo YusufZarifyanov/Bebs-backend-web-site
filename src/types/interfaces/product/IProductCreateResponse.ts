@@ -14,5 +14,6 @@ export interface IProductCreateResponse {
   colors: string[];
   materials: string[];
   styles: string[];
+  userId: number;
   isActive: boolean;
 }

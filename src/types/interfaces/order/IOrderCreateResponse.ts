@@ -6,6 +6,6 @@ export interface IOrderCreateResponse {
   deliveryAddress: string;
   deliveryMethod: DeliveryMethod;
   price: number;
-  userId: number;
+  productId: number;
   isActive: boolean;
 }

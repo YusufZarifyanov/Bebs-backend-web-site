@@ -4,22 +4,22 @@ import { Order } from 'src/entities';
 import { OrderNotFoundByIdError } from 'src/shared/errors';
 import { IOrderCreateParams, IOrderUpdateParams } from 'src/types';
 import { Repository } from 'typeorm';
-import { UserService } from '../user/user.service';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
-    private readonly userService: UserService,
+    private readonly productService: ProductService,
   ) {}
 
   async createOrder(params: IOrderCreateParams): Promise<Order> {
-    const user = await this.userService.findUserById(params.userId);
+    const product = await this.productService.findProductById(params.productId);
 
     const newOrder = this.orderRepository.create({
       ...params,
-      user,
+      product,
     });
     await this.orderRepository.save(newOrder);
 
@@ -27,7 +27,7 @@ export class OrderService {
   }
 
   async findAllOrders(): Promise<Order[]> {
-    return this.orderRepository.find({ relations: ['user'] });
+    return this.orderRepository.find({ relations: ['product'] });
   }
 
   async findOrderById(id: number): Promise<Order> {
@@ -35,7 +35,7 @@ export class OrderService {
       where: {
         id,
       },
-      relations: ['user'],
+      relations: ['product'],
     });
 
     if (!order) {
@@ -49,13 +49,11 @@ export class OrderService {
     id: number,
     params: Omit<IOrderUpdateParams, 'id'>,
   ): Promise<Order> {
-    const user = await this.userService.findUserById(params.userId);
     const order = await this.findOrderById(id);
 
     return this.orderRepository.save({
       ...order,
       ...params,
-      user,
     });
   }
 

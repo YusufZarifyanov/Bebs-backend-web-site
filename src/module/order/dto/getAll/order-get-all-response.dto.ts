@@ -11,7 +11,7 @@ export class OrderGetAllResponseDto implements IOrderGetAllResponse {
     deliveryAddress: string;
     deliveryMethod: DeliveryMethod;
     price: number;
-    userId: number;
+    productId: number;
     isActive: boolean;
   }[];
 
@@ -22,7 +22,7 @@ export class OrderGetAllResponseDto implements IOrderGetAllResponse {
       deliveryAddress: order.deliveryAddress,
       deliveryMethod: order.deliveryMethod,
       price: order.price,
-      userId: order.user.id,
+      productId: order.product.id,
       isActive: order.isActive,
     }));
   }

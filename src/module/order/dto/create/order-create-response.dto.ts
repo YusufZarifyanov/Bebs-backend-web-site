@@ -20,7 +20,7 @@ export class OrderCreateResponseDto implements IOrderCreateResponse {
   price: number;
 
   @ApiProperty()
-  userId: number;
+  productId: number;
 
   @ApiProperty()
   isActive: boolean;
@@ -31,7 +31,7 @@ export class OrderCreateResponseDto implements IOrderCreateResponse {
     this.deliveryAddress = order.deliveryAddress;
     this.deliveryMethod = order.deliveryMethod;
     this.price = order.price;
-    this.userId = order.user.id;
+    this.productId = order.product.id;
     this.isActive = order.isActive;
   }
 }

@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
-import { Order } from './order.entity';
+import { Product } from './product.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -13,6 +13,6 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @OneToMany(() => Order, (order: Order) => order.user)
-  public order: Order[];
+  @OneToMany(() => Product, (product: Product) => product.user)
+  public products: Product[];
 }

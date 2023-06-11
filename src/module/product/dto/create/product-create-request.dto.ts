@@ -79,4 +79,9 @@ export class ProductCreateRequestDto implements IProductCreateParams {
   @IsArray()
   @IsString({ each: true })
   styles?: string[];
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsNumber()
+  userId: number;
 }

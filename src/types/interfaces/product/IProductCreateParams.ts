@@ -13,4 +13,5 @@ export interface IProductCreateParams {
   colors?: string[];
   materials?: string[];
   styles?: string[];
+  userId: number;
 }

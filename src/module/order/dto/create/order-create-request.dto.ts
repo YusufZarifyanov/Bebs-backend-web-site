@@ -33,5 +33,5 @@ export class OrderCreateRequestDto implements IOrderCreateParams {
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
-  userId: number;
+  productId: number;
 }

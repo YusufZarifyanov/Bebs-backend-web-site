@@ -6,5 +6,4 @@ export interface IOrderUpdateParams {
   deliveryAddress?: string;
   deliveryMethod?: DeliveryMethod;
   price?: number;
-  userId?: number;
 }

@@ -5,5 +5,5 @@ export interface IOrderCreateParams {
   deliveryAddress: string;
   deliveryMethod?: DeliveryMethod;
   price: number;
-  userId: number;
+  productId: number;
 }

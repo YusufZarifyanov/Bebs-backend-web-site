@@ -7,7 +7,7 @@ export interface IOrderGetAllResponse {
     deliveryAddress: string;
     deliveryMethod: DeliveryMethod;
     price: number;
-    userId: number;
+    productId: number;
     isActive: boolean;
   }[];
 }

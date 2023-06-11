@@ -46,6 +46,9 @@ export class ProductCreateResponseDto implements IProductCreateResponse {
   @ApiProperty()
   isActive: boolean;
 
+  @ApiProperty()
+  userId: number;
+
   constructor(product: Product) {
     this.id = product.id;
     this.name = product.name;
@@ -60,6 +63,7 @@ export class ProductCreateResponseDto implements IProductCreateResponse {
     this.colors = product.colors;
     this.materials = product.materials;
     this.styles = product.styles;
+    this.userId = product.user.id;
     this.isActive = product.isActive;
   }
 }
