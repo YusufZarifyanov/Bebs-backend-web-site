@@ -8,7 +8,6 @@ import {
   IsOptional,
   IsPositive,
   IsString,
-  IsUrl,
 } from 'class-validator';
 import { IProductUpdateParams } from 'src/types';
 import { Category, ProductStatus } from 'src/types/enums';
@@ -23,12 +22,6 @@ export class ProductUpdateRequestDto implements IProductUpdateParams {
   @IsOptional()
   @IsString()
   name?: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  @IsUrl()
-  photoUrl?: string;
 
   @ApiProperty()
   @IsOptional()

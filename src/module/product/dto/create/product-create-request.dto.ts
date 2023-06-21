@@ -8,7 +8,6 @@ import {
   IsOptional,
   IsPositive,
   IsString,
-  IsUrl,
 } from 'class-validator';
 import { IProductCreateParams } from 'src/types';
 import { Category, ProductStatus } from 'src/types/enums';
@@ -18,12 +17,6 @@ export class ProductCreateRequestDto implements IProductCreateParams {
   @IsNotEmpty()
   @IsString()
   name: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  @IsUrl()
-  photoUrl: string;
 
   @ApiProperty()
   @IsNotEmpty()

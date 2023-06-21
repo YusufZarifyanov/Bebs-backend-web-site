@@ -2,9 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/entities';
 import { ProductNotFoundByIdError } from 'src/shared/errors';
-import { IProductCreateParams, IProductUpdateParams } from 'src/types';
+import {
+  IPaginationResponse,
+  IProductCreateParams,
+  IProductGetAllParams,
+  IProductUpdateParams,
+} from 'src/types';
 import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
+import { FileService } from '../file/file.service';
 
 @Injectable()
 export class ProductService {
@@ -12,6 +18,7 @@ export class ProductService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     private readonly userService: UserService,
+    private readonly fileService: FileService,
   ) {}
 
   async createProduct(params: IProductCreateParams): Promise<Product> {
@@ -28,6 +35,23 @@ export class ProductService {
 
   async findAllProducts(): Promise<Product[]> {
     return this.productRepository.find({ relations: ['user'] });
+  }
+
+  async findAllProductsWithPagination(
+    options: IProductGetAllParams,
+  ): Promise<IPaginationResponse<Product>> {
+    const { page = 1, size = 10 } = options;
+
+    const [data, total] = await this.productRepository.findAndCount({
+      skip: (page - 1) * size,
+      take: size,
+      relations: ['user'],
+    });
+
+    return {
+      total,
+      data,
+    };
   }
 
   async findProductById(id: number): Promise<Product> {
@@ -63,5 +87,27 @@ export class ProductService {
     await this.productRepository.delete(id);
 
     return product;
+  }
+
+  async uploadImageForProduct(
+    id: number,
+    image: Express.Multer.File,
+    baseUrl: string,
+  ): Promise<{
+    photoUrl: string;
+  }> {
+    const product = await this.findProductById(id);
+
+    const fileName = await this.fileService.createFile(image);
+    const photoUrl = baseUrl + fileName;
+
+    await this.productRepository.save({
+      ...product,
+      photoUrl,
+    });
+
+    return {
+      photoUrl,
+    };
   }
 }

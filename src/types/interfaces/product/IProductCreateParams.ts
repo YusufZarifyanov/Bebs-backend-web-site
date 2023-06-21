@@ -2,7 +2,6 @@ import { Category, ProductStatus } from 'src/types/enums';
 
 export interface IProductCreateParams {
   name: string;
-  photoUrl: string;
   category: Category;
   price: number;
   count: number;

@@ -1,7 +1,8 @@
 import { Category, ProductStatus } from 'src/types/enums';
 
 export interface IProductGetAllResponse {
-  products: {
+  total: number;
+  data: {
     id: number;
     name: string;
     photoUrl: string;

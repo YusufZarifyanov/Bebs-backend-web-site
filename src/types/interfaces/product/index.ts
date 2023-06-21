@@ -7,3 +7,5 @@ export * from './IProductUpdateParams';
 export * from './IProductUpdateResponse';
 export * from './IProductGetAllByZipCodeParams';
 export * from './IProductGetAllByZipCodeResponse';
+export * from './IProductGetAllParams';
+export * from './IProductUploadParams';

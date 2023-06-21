@@ -9,7 +9,9 @@ export class Product extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   photoUrl: string;
 
   @Column({

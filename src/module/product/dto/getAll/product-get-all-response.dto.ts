@@ -1,11 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from 'src/entities';
-import { IProductGetAllResponse } from 'src/types';
+import { IPaginationResponse, IProductGetAllResponse } from 'src/types';
 import { Category, ProductStatus } from 'src/types/enums';
 
 export class ProductGetAllResponseDto implements IProductGetAllResponse {
   @ApiProperty()
-  products: {
+  total: number;
+
+  @ApiProperty()
+  data: {
     id: number;
     name: string;
     photoUrl: string;
@@ -23,8 +26,9 @@ export class ProductGetAllResponseDto implements IProductGetAllResponse {
     isActive: boolean;
   }[];
 
-  constructor(products: Product[]) {
-    this.products = products.map((product) => ({
+  constructor(products: IPaginationResponse<Product>) {
+    this.total = products.total;
+    this.data = products.data.map((product) => ({
       id: product.id,
       name: product.name,
       photoUrl: product.photoUrl,

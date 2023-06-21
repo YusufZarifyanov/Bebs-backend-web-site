@@ -8,6 +8,9 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import {
@@ -16,12 +19,15 @@ import {
   ProductDeleteResponseDto,
   ProductGetAllByZipCodeRequestDto,
   ProductGetAllByZipCodeResponseDto,
+  ProductGetAllRequestDto,
   ProductGetAllResponseDto,
   ProductGetResponseDto,
   ProductUpdateRequestDto,
   ProductUpdateResponseDto,
 } from './dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Request } from 'express';
 
 @ApiTags('Product')
 @Controller('product')
@@ -36,10 +42,12 @@ export class ProductController {
     return new ProductCreateResponseDto(product);
   }
 
-  @Get()
+  @Get('/')
   @ApiResponse({ status: HttpStatus.OK, type: ProductGetAllResponseDto })
-  async getAll() {
-    const products = await this.productService.findAllProducts();
+  async getAll(@Query() options: ProductGetAllRequestDto) {
+    const products = await this.productService.findAllProductsWithPagination(
+      options,
+    );
 
     return new ProductGetAllResponseDto(products);
   }
@@ -81,5 +89,20 @@ export class ProductController {
     const product = await this.productService.deleteProduct(id);
 
     return new ProductDeleteResponseDto(product);
+  }
+
+  @Post('uploadImage/:id')
+  @ApiResponse({ status: HttpStatus.OK, type: String })
+  @UseInterceptors(FileInterceptor('image'))
+  uploadImage(
+    @UploadedFile() image: Express.Multer.File,
+    @Param('id') id: number,
+    @Req() req: Request,
+  ) {
+    return this.productService.uploadImageForProduct(
+      id,
+      image,
+      `${req.protocol}://${req.get('Host')}/`,
+    );
   }
 }
