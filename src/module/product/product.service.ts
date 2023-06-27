@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/entities';
-import { ProductNotFoundByIdError } from 'src/shared/errors';
+import {
+  ProductCreateStripeError,
+  ProductNotFoundByIdError,
+} from 'src/shared/errors';
 import {
   IPaginationResponse,
   IProductCreateParams,
@@ -11,6 +14,7 @@ import {
 import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
 import { FileService } from '../file/file.service';
+import Stripe from 'stripe';
 
 @Injectable()
 export class ProductService {
@@ -19,14 +23,24 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
     private readonly userService: UserService,
     private readonly fileService: FileService,
+    @Inject('STRIPE_CLIENT') private readonly stripe: Stripe,
   ) {}
 
   async createProduct(params: IProductCreateParams): Promise<Product> {
     const user = await this.userService.findUserById(params.userId);
 
+    const stripeProductInfo = await this.stripe.products.create({
+      name: params.name,
+    });
+
+    if (!stripeProductInfo) {
+      throw new ProductCreateStripeError();
+    }
+
     const newProduct = this.productRepository.create({
       ...params,
       user,
+      stripeId: stripeProductInfo.id,
     });
     await this.productRepository.save(newProduct);
 

@@ -58,6 +58,9 @@ export class Product extends BaseEntity {
   @Column('text', { array: true, default: '{}' })
   styles: string[];
 
+  @Column()
+  stripeId: string;
+
   @OneToMany(() => Order, (order: Order) => order.product)
   public orders: Order[];
 
