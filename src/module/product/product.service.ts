@@ -31,6 +31,10 @@ export class ProductService {
 
     const stripeProductInfo = await this.stripe.products.create({
       name: params.name,
+      default_price_data: {
+        unit_amount_decimal: String((params.price * 100).toFixed(2)),
+        currency: 'usd',
+      },
     });
 
     if (!stripeProductInfo) {
