@@ -48,6 +48,12 @@ export class ProductService {
     });
     await this.productRepository.save(newProduct);
 
+    await this.stripe.products.update(stripeProductInfo.id, {
+      metadata: {
+        id: stripeProductInfo.id,
+      },
+    });
+
     return newProduct;
   }
 

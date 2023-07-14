@@ -49,6 +49,9 @@ export class ProductGetResponseDto implements IProductGetResponse {
   @ApiProperty()
   isActive: boolean;
 
+  @ApiProperty()
+  stripeId: string;
+
   constructor(product: Product) {
     this.id = product.id;
     this.name = product.name;
@@ -65,5 +68,6 @@ export class ProductGetResponseDto implements IProductGetResponse {
     this.styles = product.styles;
     this.userId = product.user.id;
     this.isActive = product.isActive;
+    this.stripeId = product.stripeId;
   }
 }

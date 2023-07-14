@@ -24,6 +24,7 @@ export class ProductGetAllResponseDto implements IProductGetAllResponse {
     styles: string[];
     userId: number;
     isActive: boolean;
+    stripeId: string;
   }[];
 
   constructor(products: IPaginationResponse<Product>) {
@@ -44,6 +45,7 @@ export class ProductGetAllResponseDto implements IProductGetAllResponse {
       styles: product.styles,
       userId: product.user.id,
       isActive: product.isActive,
+      stripeId: product.stripeId,
     }));
   }
 }

@@ -5,9 +5,7 @@ import { Product } from './product.entity';
 
 @Entity({ name: 'order' })
 export class Order extends BaseEntity {
-  @Column({
-    unique: true,
-  })
+  @Column()
   check: string;
 
   @Column({

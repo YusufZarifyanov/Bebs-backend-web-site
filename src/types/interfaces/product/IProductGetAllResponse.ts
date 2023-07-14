@@ -18,5 +18,6 @@ export interface IProductGetAllResponse {
     styles: string[];
     userId: number;
     isActive: boolean;
+    stripeId: string;
   }[];
 }

@@ -16,5 +16,6 @@ export interface IProductGetAllByZipCodeResponse {
     materials: string[];
     styles: string[];
     isActive: boolean;
+    stripeId: string;
   }[];
 }

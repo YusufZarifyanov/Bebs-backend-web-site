@@ -22,6 +22,7 @@ export class ProductGetAllByZipCodeResponseDto
     materials: string[];
     styles: string[];
     isActive: boolean;
+    stripeId: string;
   }[];
 
   constructor(products: Product[]) {
@@ -40,6 +41,7 @@ export class ProductGetAllByZipCodeResponseDto
       materials: product.materials,
       styles: product.styles,
       isActive: product.isActive,
+      stripeId: product.stripeId,
     }));
   }
 }
